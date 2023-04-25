@@ -1,0 +1,122 @@
+from tkinter import *
+
+affichage = []
+formule = []
+
+def enter(formule, affichage, num, entry) :
+    
+    #if (num == "+" or num == "-") and (len(affichage) < 1 or (affichage[len(affichage) - 1] == "+" or affichage[len(affichage) - 1] == "-")) :
+    #    return
+
+    if num == "-" and len(affichage) > 0 :
+        if affichage[0] == "+" or affichage[0] == "-" :
+            #formule = modif_formule(formule, affichage, affichage[0])
+            formule = formule + affichage
+        else :
+            #formule = modif_formule(formule, affichage, "+")
+            formule = formule + affichage
+        affichage.clear()
+        affichage.append("-")
+    elif num == "-" and len(affichage) == 0 :
+        return
+    
+    elif num == "+" and len(affichage) > 0 :
+        if affichage[0] == "+" or affichage[0] == "-" :
+            #formule = modif_formule(formule, affichage, affichage[0])
+            formule = formule + affichage
+        else :
+            #formule = modif_formule(formule, affichage, "+")
+            formule = formule + affichage
+        affichage.clear()
+        affichage.append("+")
+    elif num == "+" and len(affichage) == 0 :
+        return
+    
+    else :
+        affichage.append(num)
+    entry.delete(0, END)
+    entry.insert(0, affichage)
+
+    print("affichage =", affichage)
+    print("formule =", formule)
+    return
+
+def supprime(affichage, entry) :
+
+    if len(affichage) > 0 :
+        affichage.pop(-1)
+
+    entry.delete(0, END)
+    entry.insert(0, affichage)
+
+    return
+
+def egal(formule, affichage, entry) :
+    affichage.clear()
+
+    entry.delete(0, END)
+    entry.insert(0, formule)
+
+    #formule = 0
+    #affichage.clear()
+    return
+
+def modif_formule(formule, affichage, car) :
+    affichage_int = 0
+
+    if affichage[0] == "+" or affichage[0] == "-" :
+            affichage.pop(0)
+    
+    for i in range(len(affichage)) :
+        affichage_int = (affichage_int * 10) + int(affichage[i])
+    
+    if car == "-" :
+        formule = formule - affichage_int
+    elif car == "+" :
+        formule = formule + affichage_int
+    
+    #print(formule)
+    return formule
+
+def play(formule, affichage) :
+
+    main = Tk()
+    main.title("Calculatrice")
+
+    entry = Entry(main, width = 30)
+    entry.grid(row = 0, column = 0, columnspan = 4)
+
+    button_1 = Button(main, text = "1", command = lambda:enter(formule, affichage, 1, entry), width = 8)
+    button_2 = Button(main, text = "2", command = lambda:enter(formule, affichage, 2, entry), width = 8)
+    button_3 = Button(main, text = "3", command = lambda:enter(formule, affichage, 3, entry), width = 8)
+    button_4 = Button(main, text = "4", command = lambda:enter(formule, affichage, 4, entry), width = 8)
+    button_5 = Button(main, text = "5", command = lambda:enter(formule, affichage, 5, entry), width = 8)
+    button_6 = Button(main, text = "6", command = lambda:enter(formule, affichage, 6, entry), width = 8)
+    button_7 = Button(main, text = "7", command = lambda:enter(formule, affichage, 7, entry), width = 8)
+    button_8 = Button(main, text = "8", command = lambda:enter(formule, affichage, 8, entry), width = 8)
+    button_9 = Button(main, text = "9", command = lambda:enter(formule, affichage, 9, entry), width = 8)
+    button_0 = Button(main, text = "0", command = lambda:enter(formule, affichage, 0, entry), width = 8)
+    button_plus = Button(main, text = "+", command = lambda:enter(formule, affichage, "+", entry), width = 8)
+    button_minus = Button(main, text = "-", command = lambda:enter(formule, affichage, "-", entry), width = 8)
+    button_equal = Button(main, text = "=", command = lambda:egal(formule, affichage, entry), width = 8)
+    button_delet = Button(main, text = "Sup", command = lambda:supprime(affichage, entry), width = 8)
+
+    button_1.grid(row = 1, column = 1)
+    button_2.grid(row = 1, column = 2)
+    button_3.grid(row = 1, column = 3)
+    button_4.grid(row = 2, column = 1)
+    button_5.grid(row = 2, column = 2)
+    button_6.grid(row = 2, column = 3)
+    button_7.grid(row = 3, column = 1)
+    button_8.grid(row = 3, column = 2)
+    button_9.grid(row = 3, column = 3)
+    button_0.grid(row = 4, column = 2)
+    button_plus.grid(row = 4, column = 1)
+    button_minus.grid(row = 4, column = 3)
+    button_equal.grid(row = 5, column = 2)
+    button_delet.grid(row = 5, column = 3)
+
+    main.mainloop()
+
+if __name__ == '__main__' :
+    play(formule, affichage)

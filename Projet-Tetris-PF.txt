@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="centerBlock">
+        <div class="information">
+            <div class="text">
+                <div class="title">
+                    <h1>Tetris :</h1>
+                    <h6>par Amadis TALAVERA Y NARANJO</h6>
+                </div>
+            </div>
+            <div class="points">
+                <h1>Points :</h1> 
+                <h1><span id="point"></span></h1>
+            </div>
+        </div>
+        <div class="game">
+        
+        </div>
+    </div>
+    
+    <script type="module" src="main.js"></script>
+</body>
+</html>
+
+// -------------------------------------------------------------------- CSS :
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: orangered;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.centerBlock {
+    margin-top: 3rem;
+    display: flex;
+    gap: 16rem;
+}
+
+.information {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8rem;
+}
+
+.text {
+    width: 100%;
+    height: 12rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    padding: 1rem;
+    border: 3px solid black;
+    background-color: orange;
+    font-size: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.points {
+    padding: 0.5rem;
+    border: 3px solid black;
+    background-color: lightgray;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.game {
+    border: 3px solid black;
+    margin-top: 0;
+    background-color: gray;
+    width: 20.3rem;
+    height: 40.3rem;
+    display: flex;
+    flex-wrap: wrap;
+    column-count: 10;
+    column-gap: 0;
+}
+
+.block {
+    border: 1px solid black;
+    background-color: red;
+    width: 2rem;
+    height: 2rem;
+}
+
+.case {
+    border: 1px solid black;
+    background-color: darkgray;
+    width: 2rem;
+    height: 2rem;
+}
+
+.blockTerm {
+    border: 1px solid black;
+    background-color: blue;
+    width: 2rem;
+    height: 2rem;
+}
+
+// ------------------------------------------------------------------- JavaScript :
+
+const mouvBlock = document.querySelector(".block");  // On récupère les class pour pouvoir les modifier
+const addGame = document.querySelector(".game");
+const addPoints = document.querySelector(".points");
+const point = document.getElementById("point");
+
+let tab = [];
+let posX = 0;
+let posY = 0;
+let timeInterval = 250;
+let isDeath = false;
+let points = 0;
+
+let lineBlock = false;
+let squareBlock = true;
+let vertBlock = false;
+
+const randomBlock = () => { // Permet de retourner une val boolean aléatoire pour savoir quel block va apparaitre.
+    let rand = Math.floor(Math.random() * 2);
+    if (rand === 0) {
+        return true;
+    } else if (rand === 1) {
+        return false;
+    }
+}
+
+const checkSupp = (tab) => { // Vérifie si une ligne est complète :
+    let checkLine = 0;
+    for (let w = 0; w < 200; w++) {
+        if (tab[w] === 'o') {
+            checkLine++;
+        } else {
+            w += (9 - checkLine);
+            checkLine = 0;
+        }
+        if (checkLine === 10) {
+            checkLine = 0;
+            let rest = [];
+            for (let s = (w + 1); s < 200; s++) {
+                rest.push(tab[s]);
+            }
+
+            for (let dix = 0; dix < (10 + rest.length); dix++) {
+                tab.pop();
+            }
+
+            for (let dixg = 0; dixg < 10; dixg++) {
+                tab.unshift("-");
+                points += 20;
+            }
+
+            for (let r = 0; r < rest.length; r++) {
+                tab.push(rest[r]);
+            }
+        }
+    }
+}
+
+const checkDeath = () => { // Vérifie si le jeu est fini :
+    if ((lineBlock === true) && ((tab[posX + (posY * 10)] === "o") || (tab[(posX - 1) + (posY * 10)] === "o") || (tab[(posX + 1) + (posY * 10)] === "o") || (tab[(posX + 2) + (posY * 10)] === "o"))) {
+        isDeath = true;
+    } else if ((squareBlock === true) && ((tab[posX + ((posY + 1) * 10)] === "o") || (tab[(posX + 1) + ((posY + 1) * 10)] === "o") || (tab[posX + (posY * 10)] === "o") || (tab[(posX + 1) + (posY * 10)] === "o"))) {
+        isDeath = true;
+    }
+}
+
+const retryGame = () => { // Relance une partie (remet tout à 0).
+    tab = [];
+    posX = 4;
+    posY = 0;
+    timeInterval = 250;
+    isDeath = false;
+    points = 0;
+    for (let y = 0; y < 200; y++) {
+        tab.push("-")
+    }
+    if (randomBlock() === true) {
+        lineBlock = true;
+        squareBlock = false;
+    } else {
+        lineBlock = false;
+        squareBlock = true;
+    }
+}
+
+const lineBlockTrue = (posX, posY, tab, vertBlock, car) => { // Modélise le block line :
+    tab.splice(posX + (posY * 10), 1, car);
+    if (vertBlock === false) {
+        tab.splice((posX - 1) + (posY * 10), 1, car);
+        tab.splice((posX + 1) + (posY * 10), 1, car);
+        tab.splice((posX + 2) + (posY * 10), 1, car);
+    } else {
+        tab.splice(posX + ((posY - 2) * 10), 1, car);
+        tab.splice(posX + ((posY - 1) * 10), 1, car);
+        tab.splice(posX + ((posY + 1) * 10), 1, car);
+    }
+}
+
+const squareBlockTrue = (posX, posY, tab, car) => { // Modélise le block square :
+    tab.splice(posX + ((posY + 1) * 10), 1, car);
+    tab.splice((posX + 1) + ((posY + 1) * 10), 1, car);
+    tab.splice(posX + (posY * 10), 1, car);
+    tab.splice((posX + 1) + (posY * 10), 1, car);
+}
+
+const isRightPos = () => { // Vérifie si peut aller à droite.
+    if (lineBlock === true) {
+        if (vertBlock === true) {
+            if ((posX < 9) && (tab[(posX + 1) + ((posY) * 10)] !== "o") && (tab[(posX + 1) + ((posY + 1) * 10)] !== "o") && (tab[(posX + 1) + ((posY - 1) * 10)] !== "o") && (tab[(posX + 1) + ((posY - 2) * 10)] !== "o")) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            if ((posX < 7) && (tab[(posX + 3) + ((posY) * 10)] !== "o")) {
+                return true
+            } else {
+                return false
+            }
+        }
+
+    } else if (squareBlock === true) {
+        if ((posX < 8) && (tab[(posX + 2) + (posY * 10)] !== "o") && (tab[(posX + 2) + ((posY + 1) * 10)] !== "o")) {
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+const isLeftPos = () => { // Vérifie si peut aller à Gauche.
+    if (lineBlock === true) {
+        if (vertBlock === true) {
+            if ((posX > 0) && (tab[(posX - 1) + ((posY) * 10)] !== "o") && (tab[(posX - 1) + ((posY + 1) * 10)] !== "o") && (tab[(posX - 1) + ((posY - 1) * 10)] !== "o") && (tab[(posX - 1) + ((posY - 2) * 10)] !== "o")) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            if ((posX > 1) && (tab[(posX - 2) + ((posY) * 10)] !== "o")) {
+                return true
+            } else {
+                return false
+            }
+        }
+    } else if (squareBlock === true) {
+        if ((posX > 0) && (tab[(posX -1) + (posY * 10)] !== "o") && (tab[(posX - 1) + ((posY + 1) * 10)] !== "o")) {
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+const isBottomPos = (height) => { // Vérifie si peut aller en Bas.
+    if (lineBlock === true) {
+        if (vertBlock === true) {
+            if ((posY < height - 1) && (tab[posX + ((posY + 2) * 10)] !== "o")) {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            if ((posY < height) && (tab[posX + ((posY + 1) * 10)] !== "o") && (tab[(posX + 1) + ((posY + 1) * 10)] !== "o") && (tab[(posX - 1) + ((posY + 1) * 10)] !== "o") && (tab[(posX + 2) + ((posY + 1) * 10)] !== "o")) {
+                return true
+            } else {
+                return false
+            }
+        }
+    } else if (squareBlock === true) {
+        if ((posY < height - 1) && (tab[posX + ((posY + 2) * 10)] !== "o") && (tab[(posX + 1) + ((posY + 2) * 10)] !== "o")) {
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+retryGame();
+
+let interval = setInterval(() => { // Toutes les sec va baisser le block de 1.
+    if (isDeath === true) { // Vérifie si le jeu est fini. Si oui, ferme la boucle.
+        let retry = confirm("You Lose !\nDo you want to retry ?");
+        if (retry === true) {
+            retryGame();
+        }
+        return timeInterval = 1000000;
+    }
+    if (lineBlock === true) { // Si block est line :
+        if (isBottomPos(19) === true) { 
+            lineBlockTrue(posX, posY, tab, vertBlock, "-");
+            posY += 1;
+        } else {
+            lineBlockTrue(posX, posY, tab, vertBlock, "o");
+            checkSupp(tab);
+            if (randomBlock() === true) {
+                lineBlock = true;
+                squareBlock = false;
+            } else {
+                lineBlock = false;
+                squareBlock = true;
+            }
+            if ((lineBlock === true) && (posX < 1)) {
+                posX = 1;
+            } else if ((lineBlock === true) && (posX > 7)) {
+                posX = 7;
+            } else if ((squareBlock === true) && (posX > 8)) {
+                posX = 8;
+            }
+            vertBlock = false;
+            posY = 0;
+            points += 25;
+            checkDeath();
+            console.log("isDeath =", isDeath);
+        }
+
+    } else if (squareBlock === true) { // Si block est square :
+        if (isBottomPos(19) === true) {
+            squareBlockTrue(posX, posY, tab, "-");
+            posY += 1;
+        } else {
+            squareBlockTrue(posX, posY, tab, "o");
+            checkSupp(tab);
+            if (randomBlock() === true) {
+                lineBlock = true;
+                squareBlock = false;
+            } else {
+                lineBlock = false;
+                squareBlock = true;
+            }
+            if ((lineBlock === true) && (posX < 1)) {
+                posX = 1;
+            } else if ((lineBlock === true) && (posX > 7)) {
+                posX = 7;
+            }
+            vertBlock = false;
+            posY = 0;
+            points += 15;
+            checkDeath();
+        }
+    }
+
+    if (lineBlock === true) {
+        lineBlockTrue(posX, posY, tab, vertBlock, "X");
+    } else if (squareBlock === true) {
+        squareBlockTrue(posX, posY, tab, "X");
+    }
+
+    point.textContent = points;
+    addGame.innerHTML = ""; // Modifie l'affichage :
+    for (let t = 0; t < 200; t++) {
+        if (tab[t] === "-") {
+            addGame.innerHTML += "<div class='case'></div>"
+        } else if (tab[t] === "X") {
+            addGame.innerHTML += "<div class='block'></div>"
+        } else if (tab[t] === "o") {
+            addGame.innerHTML += "<div class='blockTerm'></div>"
+        }
+    }
+}, timeInterval)
+
+document.addEventListener("keypress", (e) => { // Vérifie pour chaque touche entrée si elle doit faire qqc.
+    if (isDeath === true) {
+        return
+    }
+    if (lineBlock === true) {
+        lineBlockTrue(posX, posY, tab, vertBlock, "-");
+    } else if (squareBlock === true) {
+        squareBlockTrue(posX, posY, tab, "-");
+    }
+
+    if (e.key === "d") {
+        if (isRightPos() === true) {
+            posX += 1;
+        }
+
+    } else if (e.key === "q") {
+        if (isLeftPos() === true) {
+            posX -= 1;
+        }
+
+    } else if (e.key === "s") {
+        if (isBottomPos(19) === true) {
+            posY += 1;
+            points += 2;
+        }
+    } else if (e.key === "z") {
+        if (lineBlock === true) {
+            if ((vertBlock === true) && (posX > 0 && posX < 8) && (tab[(posX + 1) + ((posY) * 10)] !== "o") && (tab[(posX - 1) + ((posY) * 10)] !== "o") && (tab[(posX + 2) + ((posY) * 10)] !== "o")) {
+                lineBlockTrue(posX, posY, tab, vertBlock, "-")
+                vertBlock = false;
+                lineBlockTrue(posX, posY, tab, vertBlock, "X")
+            } else if ((vertBlock === false) && (posY > 1 && posY < 19) && (tab[posX + ((posY + 1) * 10)] !== "o") && (tab[posX + ((posY - 1) * 10)] !== "o") && (tab[posX + ((posY - 2) * 10)] !== "o")) {
+                lineBlockTrue(posX, posY, tab, vertBlock, "-")
+                vertBlock = true;
+                lineBlockTrue(posX, posY, tab, vertBlock, "X")
+            }
+        }
+    }
+
+    if (lineBlock === true) { // Modifie l'affichage :
+        lineBlockTrue(posX, posY, tab, vertBlock, "X")
+    }else if (squareBlock === true) {
+        squareBlockTrue(posX, posY, tab, "X");
+    }
+    point.textContent = points;
+    addGame.innerHTML = "";
+    for (let t = 0; t < 200; t++) {
+        if (tab[t] === "-") {
+            addGame.innerHTML += "<div class='case'></div>"
+        } else if (tab[t] === "X") {
+            addGame.innerHTML += "<div class='block'></div>"
+        } else if (tab[t] === "o") {
+            addGame.innerHTML += "<div class='blockTerm'></div>"
+        }
+    }
+})

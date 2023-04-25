@@ -1,0 +1,147 @@
+* {
+    padding : 0;
+    border : 0;
+    margin : 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: url(/assets/images/img_fond_travaux.jpg);
+    font-family: 'Noto Serif', serif;
+    font-family: 'Nunito', sans-serif;
+    font-family: 'Oswald', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+nav {
+    border-bottom: 3px solid black;
+    width: 100%;
+    height: 6rem;
+    background-color: rgb(39, 39, 39);
+    position: fixed;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.words_nav {
+    margin-right: 8rem;
+    display: flex;
+    gap: 8rem;
+}
+
+.words_nav h3 {
+    color: whitesmoke;
+    text-decoration: underline rgb(39, 39, 39);
+}
+
+.words_nav .main_word {
+    color: gray;
+    text-decoration: underline gray;
+}
+
+.contener {
+    margin: 8rem 0 2rem 0;
+    width: 94%;
+    display: flex;
+    gap: 2%;
+}
+
+.center_block {
+    padding: 0.5rem;
+    border: 3px solid dimgray;
+    width: 33%;
+    height: 101.25rem;
+    background-color: lightgray;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.object {
+    padding: 3rem 0rem;
+    border: 3px solid dimgray;
+    background-color: rgb(75, 75, 75);
+    width: 100%;
+    height: 95rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5%;
+}
+
+.object .img_logo {
+    width: 100%;
+    height: 15rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.object h1 {
+    color: whitesmoke;
+}
+
+.golang {
+    margin: 2.7rem 0;
+}
+
+.object .projects {
+    padding-top: 5rem;
+    width: 95%;
+    border-top: 3px solid dimgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.object .projects .word {
+    padding: 0.5rem 0rem;
+    width: 100%;
+    height: 20rem;
+    border: 3px solid dimgray;
+    background-color: lightgray;
+    color: whitesmoke;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.object .projects .calc {
+    background: url(/assets/images/img_font_calc.png);
+}
+
+.object .projects .morp {
+    background: url(/assets/images/img_font_morp.png);
+}
+
+.object .projects .snak {
+    background: url(/assets/images/img_font_snak.png);
+}
+
+.object .projects .hang {
+    background: url(/assets/images/img_font_hang.png);
+}
+
+.object .projects .grtr {
+    background: url(/assets/images/img_font_grtr.png);
+}
+
+.object .projects .pigo {
+    background: url(/assets/images/img_font_pigo.png);
+}
+
+.object .projects .tetr {
+    background: url(/assets/images/img_font_tetr.png);
+}
+
+.object .projects .page {
+    background: url(/assets/images/img_font_page.png);
+}
+
+.object .projects .pijs {
+    background: url(/assets/images/img_font_pijs.png);
+}

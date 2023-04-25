@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/style_index.css"> <!-- On connecte notre fichier css à notre fichier html-->
+    <link rel="preconnect" href="https://fonts.googleapis.com"> <!-- Les fonts que je récuppère d'Internet (Google Fonts)-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif&family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&family=Oswald&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/images/logo_livre.png">
+    <title>Acceuil - Port-Folio - Amadis TALAVERA Y NARANJO</title> <!-- Le titre de ma page-->
+</head>
+<body>
+    <nav> <!-- On définit nôtre navbar-->
+        <div class="words_nav">  
+            <h3 class="main_word">Acceuil</h3> <!-- La page dans laquel on est n'est pas un lien-->
+            <a href="#bio"><h3>Qui suis-je ?</h3></a> <!-- Les autres mots sont des liens vers chaque page-->
+            <a href="#comp"><h3>Compétences</h3></a>
+            <a href="#parc"><h3>Mon parcours</h3></a>
+            <a href="travaux.html"><h3>Mes travaux</h3></a>
+            <a href="contacts.html"><h3>Contacts</h3></a>
+        </div>
+    </nav>
+
+    <div class="skills_and_center_blocks"> <!-- Notre div qui contient la div skills_block + center_block-->
+        <div class="skills_block">
+            <div class="container">
+                <div class="title"> <!-- Le bloc titre à les mêmes propriétés que les objets, mais en plus petit-->
+                    <h2>Principaux langages utilisés :</h2>
+                </div>          
+                <div class="object"> <!-- On crée deux objets carrés qui contiennent nos info Python et Golang-->
+                    <h1>Python</h1>
+                    <img src="assets/images/logo_Python.png" height="50%" alt="">
+                    <a href="travaux.html"><h2>Voir travaux</h2></a>
+                </div>
+                <div class="object">
+                    <h1>Golang</h1>
+                    <img src="assets/images/logo_Golang.webp" width="75%" alt="">
+                    <a href="travaux.html"><h2>Voir travaux</h2></a>
+                </div>
+                <div class="special_object"> <!-- Ceci est un objet spécial, plus grand, pour contenir le JS, le HTML et le CSS-->
+                    <h1><u>JavaScript</u></h1>
+                    <img src="assets/images/logo_JavaScript.png" height="17%" alt="">
+                    <h1>+ <u>HTML</u></h1>
+                    <img src="assets/images/logo_HTML.png" height="17%" alt="">
+                    <h1>+ <u>CSS</u></h1>
+                    <img src="assets/images/logo_CSS.png" height="17%" alt="">
+                    <a href="travaux.html"><h2>Voir travaux</h2></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="center_block"> <!-- Ceci est le bloc principal-->
+            <div class="presentation_block">
+                <div class="presentation_text">
+                    <div class="intro_text"> <!-- On crée tros div, chacunne contenant une partie du titre, pour pouvoir plus facilement les personaliser-->
+                        <h2>Bonjour,</h2>
+                        <h3>je suis</h3>
+                    </div>
+                    <div class="title_text"> 
+                        <h1>Amadis</h1>
+                        <h1>TALAVERA</h1>
+                        <h1>Y NARANJO</h1>
+                    </div>
+                    <div class="info_text">
+                        <h3>Je suis <b>étudiant en informatique</b>,<br>et voici mon portfolio !</h3>
+                    </div>
+                </div>
+
+                <div class="profile_pic"> <!-- Ma magnifique photo de profil--> 
+                    <img src="assets/images/Profile_Pic-Amadis_TALAVERA.jpg" width="100%" alt="Photo de profil">
+                </div>
+            </div>
+            <div id="bio"></div>
+
+            <div class="bio_block"> <!-- Un début de bio, que je développe plus dans la page Qui suis-je?-->
+                <h2>Qui suis-je ?</h2>
+
+                <div class="info_text bio">
+                    Je suis un jeune homme de 17ans, de nationalité Franco-Espagnole. Je réside en Île-de-France en France, plus précisément au 5 rue de la Verrerie, à Meudon.<b>
+                    Je suis actuellement étudiant en 1ère année de Bachelor informatique, dans le <a href="https://www.ynov-paris.com/">Campus Paris YNOV</a>.</b>
+                    
+                    Bilingue Français et Espagnol depuis mon plus jeune âge, je maîtrise également l'Anglais, que j'ai vite apris dès mon entrée au collège, lors de la découverte de ma passion pour l'informatique.<br>
+                    <p>En effet, c'est plus précisément lors de mon arrivée en 3ème, que j'ai pus m'essayer à ce qui deviendras mon premier langage de prédilection, le Python.<br>
+                    Depuis, mes connaissances et mon désir de m'orienter plus tard dans le monde de l'informarique n'a fait que croître, alant jusqu'a rejoindre en 2022 une école orienté métiers du digital, le Campus Paris YNOV.</p>
+                    
+                </div>
+            </div>
+            <div id="comp"></div>
+
+            <div class="bio_block">
+                <h2>Mes compétences ?</h2>
+
+                <div class="info_text comp">
+                    Je suis étudiant en 1ère année de Bachelor informatique.<br>Actuellement, je maîtrise et dévelloppe courament en : 
+                    <ul style="margin-bottom: 2rem;">
+                        <li>Python,</li>
+                        <li>Golang,</li>
+                        <li>JavaScript.</li>
+                    </ul>
+                    Je maitrise également  : 
+                    <ul>
+                        <li>HTML,</li>
+                        <li>CSS,</li>
+                    </ul>
+                    en complément de ma maîtrise de JavaScript.
+                    <p style="margin-top: 2rem;">En supplément, je possède également des fondements en langage Java (languages orientés objet en général), ainsi que des connaissances basiques en réseaux et services clients.</p>
+                    <p style="margin-top: 2rem;">Pour finir, comme précisé plus haut, je suis d'origine Franco-Espagnole, et parle courament Français et Espagnol (les deux maternelles). Je possède également une bonne maîtrise de l'anglais.</p>
+                </div>
+            </div>
+            <div id="parc"></div>
+
+            <div class="bio_block">
+                <h2>Mon parcours ?</h2>
+
+                <div class="info_text bio">
+                    <div class="text">
+                        <div class="diplome">
+                            <p>J'ai eu une scolarité classique :<br>j'ai fait 5 années de primaire à l'école <a href="http://ecolevitruve.ovh/">Vitruve</a> (Paris 20e), puis 4 ans de collège et 3 ans de lycée au collège/lycée <a href="http://lpohdb.fr/">Honoré de Balzac</a> (Paris 17e).</p>
+                            <p>Je n'ai ni raté/redoublé, ni sauté d'année.<br>J'ai finit diplômé du Baccalauréat avec mention (voir photo de droite).</p>
+                        </div>
+                        <img src="assets/images/img_diplome.jpg" alt="" width="40%">
+                    </div>
+                    <p>
+                        <b>Actuellement en 1ère année de Bachelor informatique dans le <a href="https://www.ynov-paris.com/">Campus Paris YNOV,</a></b>
+                        je compte enchainer avec une <b>deuxième puis troisième année</b>, afin de d'être diplômé <b>Bachelor informatique</b>.
+                    </p>
+                    <p>Je compte ensuite prolonger mes études en enchainant avec un <b>Mastère informatique</b> spécialisé, durant encore 2 ans.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

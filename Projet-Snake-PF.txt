@@ -1,0 +1,154 @@
+from pytimedinput import timedInput
+from random import randint
+from colorama import init, Fore
+
+init(autoreset = True)
+            
+def Game_snake(rep, ancien_rep, snake, pomme_pos, ligne_long, col_long) :
+
+    rep = Trans_rep(rep, ancien_rep)
+
+    Tableau = [(col, row) for col in range(col_long) for row in range(ligne_long)]
+
+    # Print snake :
+    Diections = {"right" : (0, 1), "left" : (0, -1), "Up" : (-1, 0), "Down" : (1, 0)}
+    snake_pres = False
+
+    direc = Diections[rep]
+    tail_snake = len(snake)
+
+    # Chek mouv. snake :
+    if snake[1] == (snake[0][0] + direc[0], snake[0][1] + direc[1]) :
+        print(Fore.RED + "Ce n'esp pas possible !")
+        rep = ancien_rep
+        direc = Diections[rep]
+
+    ancien_rep = rep
+    
+    if rep == "Up" and snake[0][0] == 1 :
+        return ancien_rep, snake, pomme_pos, False
+    elif rep == "left" and snake[0][1] == 1 :
+        return ancien_rep, snake, pomme_pos, False
+    elif rep == "Down" and snake[0][0] == col_long - 2 :
+        return ancien_rep, snake, pomme_pos, False
+    elif rep == "right" and snake[0][1] == ligne_long - 2 :
+        return ancien_rep, snake, pomme_pos, False
+
+    else :
+        snake, pomme_pos = pomme_mange(snake, pomme_pos, ligne_long, col_long, direc)
+
+        # Deplacement snake :
+        while tail_snake > 1 :
+            tail_snake = tail_snake - 1
+            snake[tail_snake] = snake[tail_snake - 1]
+
+        snake[0] = (snake[0][0] + direc[0], snake[0][1] + direc[1])
+
+    for compt_body in range(1, len(snake)) :
+        if snake[0] == snake[compt_body] :
+            return ancien_rep, snake, pomme_pos, False
+
+    Print_field(snake_pres, Tableau, snake, pomme_pos, ligne_long, col_long)
+
+    return ancien_rep, snake, pomme_pos, True
+
+
+# Print map :
+def Print_field(snake_pres, Tableau, snake, pomme_pos, ligne_long, col_long) :
+    for cell in Tableau :
+        for long in range(len(snake)) :
+            if cell == snake[long] :
+                print(Fore.GREEN + "X ", end = "")
+                snake_pres = True
+
+        if cell[1] == ligne_long - 1 :
+            print(Fore.YELLOW + "# ")
+
+        elif cell[1] == 0 :
+            print(Fore.YELLOW + "# ", end = "")
+
+        elif cell[0] == 0 or cell[0] == col_long - 1 :
+            print(Fore.YELLOW + "# ", end = "")
+            
+        elif cell == pomme_pos :
+            print(Fore.RED + "@ ", end = "")
+
+        else :
+            if snake_pres :
+                snake_pres = False
+            else :
+                print("  ", end = "")
+
+#Chek reponse :
+def Trans_rep(rep, ancien_rep) :
+
+    if rep == "z" :
+        rep = "Up"
+    elif rep == "q" :
+        rep = "left"
+    elif rep == "s" :
+        rep = "Down"
+    elif rep == "d" :
+        rep = "right"
+    else :
+        rep = ancien_rep
+    
+    return rep
+
+# Chek pomme :
+def pomme_mange(snake, pomme_pos, ligne_long, col_long, direc) :
+    if snake[0][0] + direc[0] == pomme_pos[0] and snake[0][1] + direc[1] == pomme_pos[1] :
+        pomme_pos = (randint(1, col_long - 2), randint(1, ligne_long - 2))
+
+        # Chek pomme not in body :
+        for i in range(len(snake)) :
+            if pomme_pos == snake[i] :
+                i = 0
+                pomme_pos = (randint(1, col_long - 2), randint(1, ligne_long - 2))
+
+        snake.append((50, 50))
+        
+    return snake, pomme_pos
+
+// ---------------------------------------------- Lancer_Game.py :
+
+import Game, Menu
+from pytimedinput import timedInput
+import os
+
+def lance_Game(speed_Game, ligne_long, col_long, snake, ancien_snake, pomme_pos) :
+    ancien_pomme_pos = pomme_pos
+
+    alive = True
+    rep = "right"
+    ancien_rep = "right"
+    
+    os.system("cls")
+    print()
+    txt,_ = timedInput("Ca commence dans :   5", timeout = 1)
+    os.system("cls")
+    print()
+    txt,_ = timedInput("Ca commence dans :   4", timeout = 1)
+    os.system("cls")
+    print()
+    txt,_ = timedInput("Ca commence dans :   3", timeout = 1)
+    os.system("cls")
+    print()
+    txt,_ = timedInput("Ca commence dans :   2", timeout = 1)
+    os.system("cls")
+    print()
+    txt,_ = timedInput("Ca commence dans :   1", timeout = 1)
+    os.system("cls")
+    print()
+    print("C'est parti !")
+
+    while alive :
+
+        rep,_ = timedInput("Mouvement (z, q, s, d) : ", timeout = speed_Game)
+        
+        os.system("cls")
+        ancien_rep, snake, pomme_pos, alive = Game.Game_snake(rep, ancien_rep, snake, pomme_pos, ligne_long, col_long)
+        print()
+
+    if alive == False :
+        Menu.GameOver(speed_Game, ligne_long, col_long, snake, ancien_snake, ancien_pomme_pos)

@@ -1,0 +1,189 @@
+from tkinter import *
+from functools import partial
+from tkinter import messagebox
+import random
+
+sign = 0
+global board
+board = [[" " for x in range(3)] for y in range(3)]
+
+
+def withpc(gameboard) :
+    gameboard.destroy()
+    gameboard = Tk()
+    gameboard.title("Morpion")
+
+    pl = Button(gameboard, text = 'Joueur : X', width = 10)
+    pl.grid(row = 1, column = 1)
+
+    ordi = Button(gameboard, text = 'Ordinateur : O', width = 10, state = DISABLED)
+    ordi.grid(row = 2, column = 1)
+
+    gameboard_pc(gameboard, pl, ordi)
+
+def pc() :
+    possiblemove = []
+
+    #for i in range(len(board)) :
+    #    for j in range(len(board[i])) :
+
+def gameboard_pc(gameboard, p1, p2) :
+    global button
+    button = []
+
+    for i in range(3) :
+        m = 3 + i
+        button.append(i)
+        button[i] = []
+
+        for j in range(3) :
+            n = j
+            button[i].append(j)
+
+            get_t = partial(get_text_pc, i, j, gameboard, p1, p2)
+            button[i][j] = Button(gameboard, bd = 5, command = get_t, height = 4, width = 8)
+            button[i][j].grid(row = m, column = n)
+        
+    gameboard.mainloop()
+
+def get_text_pc(i, j, gameboard, p1, p2) :
+    global sign
+
+    if board[i][j] == ' ' :
+        if sign%2 == 0 :
+            p1.config(state = DISABLED)
+            p2.config(state = ACTIVE)
+            board[i][j] = "X"
+        else :
+            p2.config(state = DISABLED)
+            p1.config(state = ACTIVE)
+            board[i][j] = "O"
+        
+        sign += 1
+        button[i][j].config(text = board[i][j])
+
+    if winner(board, "X") :
+        gameboard.destroy()
+        box = messagebox.showinfo("Morpion", "Le joueur 1 à gagnée !")
+    elif winner(board, "O") :
+        gameboard.destroy()
+        box = messagebox.showinfo("Morpion", "Le joueur 2 à gagnée !")
+    elif (isfull()) :
+        gameboard.destroy()
+        box = messagebox.showinfo("Morpion", "Macht nul !")
+
+# Multiplayer :
+def withplayer(gameboard) :
+    gameboard.destroy()
+    gameboard = Tk()
+    gameboard.title("Morpion")
+
+    p1 = Button(gameboard, text = 'Joueur 1 : X', width = 10)
+    p1.grid(row = 1, column = 1)
+
+    p2 = Button(gameboard, text = 'Joueur 2 : O', width = 10, state = DISABLED)
+    p2.grid(row = 2, column = 1)
+
+    gameboard_pl(gameboard, p1, p2)
+
+def gameboard_pl(gameboard, p1, p2) :
+    global button
+    button = []
+
+    for i in range(3) :
+        m = 3 + i
+        button.append(i)
+        button[i] = []
+
+        for j in range(3) :
+            n = j
+            button[i].append(j)
+
+            get_t = partial(get_text, i, j, gameboard, p1, p2)
+            button[i][j] = Button(gameboard, bd = 5, command = get_t, height = 4, width = 8)
+            button[i][j].grid(row = m, column = n)
+        
+    gameboard.mainloop()
+
+def get_text(i, j, gameboard, p1, p2) :
+    global sign
+
+    if board[i][j] == ' ' :
+        if sign%2 == 0 :
+            p1.config(state = DISABLED)
+            p2.config(state = ACTIVE)
+            board[i][j] = "X"
+        else :
+            p2.config(state = DISABLED)
+            p1.config(state = ACTIVE)
+            board[i][j] = "O"
+        
+        sign += 1
+        button[i][j].config(text = board[i][j])
+
+    if winner(board, "X") :
+        gameboard.destroy()
+        box = messagebox.showinfo("Morpion", "Le joueur 1 à gagnée !")
+    elif winner(board, "O") :
+        gameboard.destroy()
+        box = messagebox.showinfo("Morpion", "Le joueur 2 à gagnée !")
+    elif (isfull()) :
+        gameboard.destroy()
+        box = messagebox.showinfo("Morpion", "Match nul !")
+
+def isfull() :
+    check = True
+    for x in board :
+        if (x.count(' ') > 0) :
+            check = False
+    return check
+
+def winner(board, symbol) :
+    return (
+        (board[0][0] == symbol and board[0][1] == symbol and board[0][2] == symbol) or
+        (board[1][0] == symbol and board[1][1] == symbol and board[1][2] == symbol) or
+        (board[2][0] == symbol and board[2][1] == symbol and board[2][2] == symbol) or
+        (board[0][0] == symbol and board[1][0] == symbol and board[2][0] == symbol) or
+        (board[0][1] == symbol and board[1][1] == symbol and board[2][1] == symbol) or
+        (board[0][2] == symbol and board[1][2] == symbol and board[2][2] == symbol) or
+        (board[0][0] == symbol and board[1][1] == symbol and board[2][2] == symbol) or
+        (board[2][0] == symbol and board[1][1] == symbol and board[0][2] == symbol)
+    )
+
+def play() :
+    menu = Tk()
+    menu.title("Morpion")
+    menu.geometry("250x250")
+
+    wpc = partial(withpc, menu)
+    wpl = partial(withplayer, menu)
+
+    # Création menu :
+    head = Label(menu, text = 'Bienvenue sur le Morpion !',
+        activebackground = 'red',
+        font = 'Arial',
+        width = 500)
+
+    # Création des boutons :
+    B1 = Button(menu, text = 'Jouer contre l\'ordinateur',
+        command = wpc, activeforeground = 'red', 
+        activebackground = 'yellow', 
+        bg = 'red', 
+        fg = 'yellow', width = 500, font = 'Arial', bd = 5)
+
+    B2 = Button(menu, text = 'Jouer contre un autre joueur',
+        command = wpl, activeforeground = 'blue',
+        activebackground = 'green',
+        bg = 'blue',
+        fg = 'green', width = 500, font = 'Arial', bd = 5)
+
+    B3 = Button(menu, text = 'Quitter', command = menu.quit)
+
+    head.pack(side = 'top')
+    B1.pack(side = 'top')
+    B2.pack(side = 'top')
+    B3.pack(side = 'bottom')
+    menu.mainloop()
+
+if __name__ == '__main__' :
+    play()

@@ -1,0 +1,223 @@
+* {
+    padding : 0;
+    border : 0;
+    margin : 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: url(/assets/images/img_fond_index.jpg);
+    font-family: 'Noto Serif', serif;
+    font-family: 'Nunito', sans-serif;
+    font-family: 'Oswald', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+nav {
+    border-bottom: 3px solid black;
+    width: 100%;
+    height: 6rem;
+    background-color: rgb(39, 39, 39);
+    position: fixed;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.words_nav {
+    margin-right: 8rem;
+    display: flex;
+    gap: 8rem;
+}
+
+.words_nav h3 {
+    color: whitesmoke;
+    text-decoration: underline rgb(39, 39, 39);
+}
+
+.words_nav .main_word {
+    color: gray;
+    text-decoration: underline gray;
+}
+
+.skills_and_center_blocks {
+    margin: 8rem 0 2rem 0;
+    width: 92%;
+    display: flex;
+    justify-content: center;
+    gap: 2%;
+}
+
+.skills_block {
+    border: 3px solid dimgray;
+    width: 24.5%;
+    height: 87.2rem;
+    background-color: rgb(75, 75, 75);
+    display: flex;
+    justify-content: center;
+}
+
+.skills_block .container {
+    margin: 1.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.skills_block .container .title {
+    border: 3px solid dimgray;
+}
+
+.skills_block .container h2 {
+    background-color: lightgray;
+    color: #000;
+    text-decoration: underline lightgray;
+    text-align: center;
+}
+
+.skills_block .container .object {
+    border: 3px solid dimgray;
+    width: 98%;
+    height: 15rem;
+    background-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.skills_block .container .object h1 {
+    margin-top: 0.75rem;
+    text-decoration: underline;
+}
+
+.skills_block .container .object h2 {
+    margin-bottom: 0.75rem;
+}
+
+.skills_block .container .special_object {
+    border: 3px solid dimgray;
+    width: 98%;
+    height: 45rem;
+    background-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.skills_block .container .special_object h1 {
+    margin-top: 0.75rem;
+}
+
+.skills_block .container .special_object h2 {
+    margin-bottom: 0.75rem;
+}
+
+.center_block {
+    padding: 0 5rem 5rem 5rem;
+    border: 3px solid dimgray;
+    width: 73.5%;
+    background-color: lightgray;
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+}
+
+.presentation_block {
+    display: flex;
+    justify-content: space-between;
+}
+
+.presentation_text {
+    margin-top: 6rem;
+    width: 55%;
+    height: 23rem;
+    font-size: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.intro_text {
+    padding: 0 0.5rem;
+    background-color: whitesmoke;
+}
+
+.title_text {
+    padding: 0 0.5rem;
+    background-color: whitesmoke;
+    font-size: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.info_text {
+    padding: 0 0.5rem;
+    background-color: whitesmoke;
+}
+
+.profile_pic {
+    padding-top: 6rem;
+    width: 40%;
+    height: 0px;
+    background-color: gray;
+}
+
+.bio_block {
+    padding-top: 4rem;
+    border-top: 2px solid grey;
+    width: 100%;
+}
+
+.bio_block h2 {
+    margin-bottom: 3rem;
+    font-size: 30px;
+}
+
+.bio_block .info_text {
+    padding: 1rem;
+    background-color: whitesmoke;
+    font-size: 22px;
+    display: flex;
+    flex-direction: column;
+}
+
+.bio_block .bio {
+    gap: 3rem;
+}
+
+.bio_block .comp {
+    gap: 1rem;
+}
+
+.bio_block .comp ul {
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    gap: 1rem;
+}
+
+.bio_block .info_text a {
+    color: #000;
+}
+
+.bio_block .text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.bio_block .text .diplome {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}

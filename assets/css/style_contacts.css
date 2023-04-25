@@ -1,0 +1,114 @@
+* {
+    padding : 0;
+    border : 0;
+    margin : 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: url(/assets/images/img_fond_contacts.jpg);
+    font-family: 'Noto Serif', serif;
+    font-family: 'Nunito', sans-serif;
+    font-family: 'Oswald', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+nav {
+    border-bottom: 3px solid black;
+    width: 100%;
+    height: 6rem;
+    background-color: rgb(39, 39, 39);
+    position: fixed;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.words_nav {
+    margin-right: 8rem;
+    display: flex;
+    gap: 8rem;
+}
+
+.words_nav h3 {
+    color: whitesmoke;
+    text-decoration: underline rgb(39, 39, 39);
+}
+
+.words_nav .main_word {
+    color: gray;
+    text-decoration: underline gray;
+}
+
+.center_block {
+    padding: 2rem;
+    border: 3px solid dimgray;
+    margin: 8rem 0 2rem 0;
+    width: 70%;
+    height: 32rem;
+    background-color: lightgray;
+    display: flex;
+    gap: 1rem;
+}
+
+.center_block .container {
+    padding: 1rem;
+    border: 3px solid black;
+    background-color: dimgray;
+    width: 50%;
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.center_block .container .info {
+    padding: 0.5rem;
+    border: 3px solid gray;
+    background-color: whitesmoke;
+    width: 70%;
+    height: 25rem;
+    font-weight: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.center_block .container .info h4 {
+    font-weight: 500;
+}
+
+.center_block .container .info ul {
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.center_block .location {
+    padding: 1rem;
+    border: 3px solid dimgray;
+    background-color: whitesmoke;
+    width: 50%;
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.center_block .location .info {
+    padding: 0.5rem;
+    background-color: lightgray;
+    width: 70%;
+    height: 25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.center_block .location .info a {
+    color: black;
+    text-decoration: underline black;
+}

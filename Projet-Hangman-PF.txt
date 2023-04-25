@@ -1,0 +1,146 @@
+package main
+
+import (
+	"encoding/json"
+	"hangman-classic/affichage_user"
+	"hangman-classic/stockage"
+	"io/ioutil"
+)
+
+type Sauvegarde struct {
+	Mot                 string
+	Reponse_utilisateur string
+	Theme               string
+	Difficulte          string
+	Lettre_utilises     []rune
+	Position_du_pendu   int
+}
+
+func main() {
+	content, err := ioutil.ReadFile("save.json")
+
+	if err != nil {
+		Profil := affichage_user.Pendu{}
+		affichage_user.MenuPrincipal(&Profil)
+		affichage_user.Choix_Diff(&Profil)
+		Direction := "./stockage/categories/" + Profil.Theme + "/" + Profil.Difficulte + ".txt"
+		Mot := stockage.RandomWord(Direction, &Profil)
+		Mot_anonyme := stockage.ShowLetter(stockage.AnonymeWord(Mot), Mot)
+		stockage.DecouverteDuMot(Mot, Mot_anonyme, Profil.Position_du_pendu, Profil.Lettre_utilises, &Profil)
+	} else {
+		var Profil Sauvegarde
+		json.Unmarshal(content, &Profil)
+		stockage.DecouverteDuMot(Profil.Mot, Profil.Reponse_utilisateur, Profil.Position_du_pendu, Profil.Lettre_utilises, (*affichage_user.Pendu)(&Profil))
+	}
+}
+
+// ------------------------------------------------------------- Affichage/affichage_user :
+
+package affichage_user
+
+import (
+	"fmt"
+	// "hangman-classic/dossier_reponse"
+)
+
+type Pendu struct {
+	Mot                 string
+	Reponse_utilisateur string
+	Theme               string
+	Difficulte          string
+	Lettre_utilises     []rune
+	Position_du_pendu   int
+}
+
+func Clear() {
+	fmt.Print("\033[H\033[2J") //fonction clear, nettoie le terminal avec une groose tab a chaque affichage dun nouvo truc
+}
+
+func MenuPrincipal(Profil *Pendu) {
+	var Theme string
+	Clear()
+	fmt.Println("                                                                 dddddddd")
+	fmt.Println("PPPPPPPPPPPPPP                                         		 d::::::d")
+	fmt.Println("P:::::::::::::PP                                        	 d::::::d")
+	fmt.Println("P::::PPPPPP:::::P                                                d::::::d")
+	fmt.Println("P::::P     P:::::P                                                d:::::d")
+	fmt.Println("P::::P     P:::::P  eeeeeeeeeeee    nnnn  nnnnnnnn        ddddddddd:::::d uuuuuu    uuuuuu")
+	fmt.Println("P::::P     P:::::Pee::::::::::::ee  n:::nn::::::::nn    dd::::::::::::::d u::::u    u::::u")
+	fmt.Println("P::::PPPPPP:::::Pe::::::eeeee:::::e n::::::::::::::nn  d::::::::::::::::d u::::u    u::::u")
+	fmt.Println("P:::::::::::::PPe::::::e     e:::::e n:::::::::::::::nd:::::::ddddd:::::d u::::u    u::::u")
+	fmt.Println("P::::PPPPPPPPP  e:::::::eeeee::::::e  n:::::nnnn:::::nd::::::d    d:::::d u::::u    u::::u")
+	fmt.Println("P::::P          e:::::::::::::::::e   n::::n    n::::nd:::::d     d:::::d u::::u    u::::u")
+	fmt.Println("P::::P          e::::::eeeeeeeeeee    n::::n    n::::nd:::::d     d:::::d u::::u    u::::u")
+	fmt.Println("P::::P          e::::::e              n::::n    n::::nd:::::d     d:::::d u:::::uuuu:::::u")
+	fmt.Println("P::::P          e::::::e              n::::n    n::::nd::::::ddddd::::::d u::::::::::::::u")
+	fmt.Println("P:::::P         e::::::::eeeeeeee    n:::::n    n::::n d:::::::::::::::::du:::::::::::::::u")
+	fmt.Println("P:::::P          ee:::::::::::::e    n:::::n    n::::n  d:::::::::ddd::::d uu::::::::uu:::u")
+	fmt.Println("PPPPPPP            eeeeeeeeeeeeee    nnnnnnn    nnnnnn   ddddddddd   ddddd   uuuuuuuu  uuuu\n")
+	fmt.Println("Bienvenue dans le sinistre jeu du Pendu...", "\n")
+	fmt.Println("Choisissez le thème et la difficulté souhaitée :")
+	fmt.Println("1: Jeux vidéos")
+	fmt.Println("2: Cinéma")
+	fmt.Println("3: Sport", "\n")
+	fmt.Scan(&Theme)
+	Clear()
+
+	for Theme != "1" || Theme != "2" || Theme != "3" { //Tant que l'user n'a pas input 1,2,3 ça recommence idem pour la diff ci dessous
+
+		if Theme == "1" {
+			Profil.Theme = "JV" // Ajoute "JV" à la structure Pendu etc...
+			break
+		} else if Theme == "2" {
+			Profil.Theme = "Cinéma"
+			break
+		} else if Theme == "3" {
+			Profil.Theme = "Sport"
+			break
+		}
+		fmt.Println("Choisissez le thème et la difficulté souhaitée :")
+		fmt.Println("1: Jeux vidéos")
+		fmt.Println("2: Cinéma")
+		fmt.Println("3: Sport")
+		fmt.Println()
+		fmt.Scan(&Theme)
+		Clear()
+	}
+}
+
+func Choix_Diff(Profil *Pendu) {
+	var Diff string
+	if Profil.Theme == "JV" {
+		fmt.Println("Les Jeux Vidéos... Fait le bon choix pour la difficulté. La vie de Jack est en jeu...")
+	} else if Profil.Theme == "Cinéma" {
+		fmt.Println("Le cinéma... Fait le bon choix pour la difficulté. La vie de Jack est en jeu...")
+	} else if Profil.Theme == "Sport" {
+		fmt.Println("Les Sport... Fait le bon choix pour la difficulté. La vie de Jack est en jeu...")
+	}
+	fmt.Println()
+	fmt.Println("1: Je suppose que Jack survivra.")
+	fmt.Println("2: La ça se corce..")
+	fmt.Println("3: Jack ne survivra JAMAIS...")
+	fmt.Println()
+	fmt.Scan(&Diff)
+	Clear()
+
+	for Diff != "1" || Diff != "2" || Diff != "3" {
+		if Diff == "1" {
+			Profil.Difficulte = "Facile"
+			break
+		}
+		if Diff == "2" {
+			Profil.Difficulte = "Moyen"
+			break
+		}
+		if Diff == "3" {
+			Profil.Difficulte = "Difficile"
+			break
+		}
+		fmt.Println("1: Je suppose que Jack survivra.")
+		fmt.Println("2: La ça se corce..")
+		fmt.Println("3: Jack ne survivra JAMAIS...")
+		fmt.Println()
+		fmt.Scan(&Diff)
+		Clear()
+	}
+}

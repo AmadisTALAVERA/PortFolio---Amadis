@@ -1,0 +1,224 @@
+package main
+
+import (
+	//"Groupie-tracker/affichage_cover"
+	"Groupie-tracker/function"
+
+	//"fmt"
+	"log"
+	"strings"
+
+	fynex "fyne.io/x/fyne/widget"
+
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/app"
+
+	//"fyne.io/fyne/v2/canvas"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/widget"
+)
+
+func main() {
+	//On définit les fenêtres :
+	//Fenêtre menu :
+	myApp := app.New()
+	menu := myApp.NewWindow("Menu")
+	menu.Resize(fyne.NewSize(400, 500))
+
+	//Fenêtre cover :
+	cover := myApp.NewWindow("cover")
+	cover.Resize(fyne.NewSize(700, 500))
+
+	//Création des var Total qui contiennent les listes de location/dates :
+	var Total_tab [][]string
+	var Total_tab_vide [][]string
+
+	Total_tab = append(Total_tab, []string{"Locations :", "Dates :"})
+
+	function.GetRelations()
+
+	Id_nbr := 1
+
+	//on va créer la barre de recherche
+	input := fynex.NewCompletionEntry([]string{})
+	// on crée la function qui permet de faire l'auto implémation
+	input.OnChanged = func(s string) {
+		if len(s) == 0 {
+			input.HideCompletion()
+			return
+		}
+		var tab []string
+		entree := make([]string, len(input.Text))
+		for i, r := range input.Text {
+			entree[i] = string(r)
+		}
+		tab = function.Complete(*input, entree, tab)
+
+		// // then show them
+		//fmt.Println(tab)
+		input.SetOptions(tab)
+		input.ShowCompletion()
+	}
+
+	//On crée l'imput de la barre de recherche :
+	//input := widget.NewEntry()
+	input.SetPlaceHolder("Entrer nom...")
+	Nom_entree := ""
+
+	input.Resize(fyne.NewSize(400, 80))
+	input.Move(fyne.NewPos(0, 0))
+
+	//On crée la liste/scroll de noms :
+	function.GetArtists()
+
+	var Nom_tab []string
+
+	//On crée la liste de noms :
+	for i := 0; i < 52; i++ {
+		Nom_tab = append(Nom_tab, function.Artists[i].Name)
+	}
+
+	noms := widget.NewList(
+		func() int {
+			return 52
+		},
+		func() fyne.CanvasObject {
+			return widget.NewLabel("noms")
+		},
+		func(lii widget.ListItemID, co fyne.CanvasObject) {
+			co.(*widget.Label).SetText(Nom_tab[lii])
+		})
+
+	noms.Resize(fyne.NewSize(400, 420))
+	noms.Move(fyne.NewPos(0, 80))
+
+	//On rend les noms redirigeables vers le cover :
+	noms.OnSelected = func(id widget.ListItemID) {
+		Id_nbr = id
+
+		//On crée la liste des locations/dates (selon l'id) :
+		Total_tab = Total_tab_vide
+
+		Total_tab = append(Total_tab, []string{"Locations :", "Dates :"})
+
+		//var Dates_tab []string
+		var Locat_tab []string
+
+		function.GetDates()
+		// for x := 0; x < len(function.Dates.Index[Id_nbr].Date); x++ {
+		// 	Dates_tab = append(Dates_tab, function.Dates.Index[Id_nbr].Date[x])
+		// }
+
+		function.GetLocations()
+		for x := 0; x < len(function.Location.Index[Id_nbr].Location); x++ {
+			Locat_tab = append(Locat_tab, function.Location.Index[Id_nbr].Location[x])
+		}
+
+		function.GetRelations()
+		for y := 0; y < len(Locat_tab); y++ {
+			Lt := Locat_tab[y]
+			if len(function.Relations.Index[Id_nbr].Dates_Locations[Lt]) > 0 {
+				for f := 0; f < len(function.Relations.Index[Id_nbr].Dates_Locations[Lt]); f++ {
+					Dt := function.Relations.Index[Id_nbr].Dates_Locations[Lt][f]
+					Total_tab = append(Total_tab, []string{Lt, Dt})
+				}
+			}
+		}
+
+		//On "remplit" notre fenêtre cover des différentes infos :
+		function.Affichage_cover(cover, menu, Id_nbr)
+
+		//Cache la fenêtre et ouvre la fenêtre cover :
+		menu.Hide()
+		cover.Show()
+		log.Println(Id_nbr)
+	}
+
+	//On crée le boutton de recherche de la barre de recherche :
+	Navbar := container.NewVBox(input, widget.NewButton("Rechercher", func() {
+		log.Println("Content was:", input.Text)
+		Nom_valide := true
+
+		//On vérifie et récupère l'id correspondante au nom entrée :
+		Total_tab = Total_tab_vide
+		Nom_entree = input.Text
+		if strings.Contains(Nom_entree, "-Member") {
+
+			Nom_entree = strings.TrimSuffix(Nom_entree, "-Member")
+			// fmt.Println(Nom_entree)
+		} else if strings.Contains(Nom_entree, "-Artists") {
+
+			Nom_entree = strings.TrimSuffix(Nom_entree, "-Artists")
+			// fmt.Println(Nom_entree)
+		}
+
+		for t := 0; t < len(function.Artists); t++ {
+			if function.Artists[t].Name != Nom_entree {
+				for x := 0; x <= len(function.Artists[t].Members)-1; x++ {
+					if function.Artists[t].Members[x] == Nom_entree {
+						Id_nbr = t
+						Nom_valide = true
+
+					}
+				}
+			} else if function.Artists[t].Name == Nom_entree {
+				Id_nbr = t
+				Nom_valide = true
+				t = len(function.Artists)
+			} else if t == len(function.Artists) {
+				Nom_valide = false
+			}
+		}
+
+		//On crée la liste des locations/dates (selon l'id) :
+		Total_tab = append(Total_tab, []string{"Locations :", "Dates :"})
+
+		//var Dates_tab []string
+		var Locat_tab []string
+
+		function.GetDates()
+		// for x := 0; x < len(function.Dates.Index[Id_nbr].Date); x++ {
+		// 	Dates_tab = append(Dates_tab, function.Dates.Index[Id_nbr].Date[x])
+		// }
+
+		function.GetLocations()
+		for x := 0; x < len(function.Location.Index[Id_nbr].Location); x++ {
+			Locat_tab = append(Locat_tab, function.Location.Index[Id_nbr].Location[x])
+
+		}
+
+		function.GetRelations()
+		for y := 0; y < len(Locat_tab); y++ {
+			Lt := Locat_tab[y]
+			if len(function.Relations.Index[Id_nbr].Dates_Locations[Lt]) > 0 {
+				for f := 0; f < len(function.Relations.Index[Id_nbr].Dates_Locations[Lt]); f++ {
+					Dt := function.Relations.Index[Id_nbr].Dates_Locations[Lt][f]
+					Total_tab = append(Total_tab, []string{Lt, Dt})
+				}
+			}
+		}
+
+		//On "remplit" notre fenêtre cover des différentes infos :
+		function.Affichage_cover(cover, menu, Id_nbr)
+
+		//On vérifie que le nom est correcte (qu'il est dans la liste d'artistes) :
+		if Nom_valide {
+			//Cache la fenêtre et ouvre la fenêtre cover :
+			menu.Hide()
+			cover.Show()
+			log.Println(Id_nbr)
+		}
+		input.Text = ""
+		Id_nbr = 0
+	}))
+
+	Navbar.Resize(fyne.NewSize(400, 80))
+	Navbar.Move(fyne.NewPos(0, 0))
+
+	//On définit ce que contient le menu :
+	cont_menu := container.NewWithoutLayout(Navbar, noms)
+
+	//On exécute l'application en ouvrant la fenêtre menu :
+	menu.SetContent(cont_menu)
+	menu.ShowAndRun()
+}
