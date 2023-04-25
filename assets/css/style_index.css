@@ -22,7 +22,7 @@ nav {
     background-color: rgb(39, 39, 39);
     position: fixed;
     display: flex;
-    justify-content: end;
+    justify-content: center;
     align-items: center;
 }
 
@@ -220,4 +220,117 @@ nav {
     display: flex;
     flex-direction: column;
     gap: 3rem;
+}
+
+@media screen and (max-width: 1024px) {
+    .words_nav {
+        margin: 0;
+        gap: 4rem;
+    }
+
+    .skills_and_center_blocks {
+        width: 100%;
+        gap: 0;
+    }
+
+    .skills_block {
+        border: 0;
+        width: 0;
+        visibility: hidden;
+    }
+
+    .center_block {
+        gap: 3.5rem;
+    }
+
+    .presentation_text {
+        height: 19rem;
+    }
+
+    .intro_text {
+        font-size: 20px;
+    }
+
+    .title_text {
+        font-size: 25px;
+    }
+
+    .info_text {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .words_nav {
+        margin: 0;
+        gap: 5rem;
+    }
+
+    .redirect {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+    }
+
+    .center_block {
+        padding: 0 2.5rem 2.5rem 2.5rem;
+        width: 82.5%;
+        gap: 2.5rem;
+    }
+
+    .presentation_text {
+        height: 16rem;
+    }
+
+    .intro_text {
+        font-size: 18px;
+    }
+
+    .title_text {
+        font-size: 20px;
+    }
+
+    .info_text {
+        font-size: 18px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .words_nav {
+        gap: 2.5rem;
+    }
+
+    .skills_and_center_blocks {
+        margin: 6rem 0 0 0;
+    }
+
+    .center_block {
+        padding: 0 1.4rem 1.4rem 1.4rem;
+        width: 100%;
+    }
+
+    .presentation_text {
+        height: 17rem;
+    }
+
+    .intro_text {
+        font-size: 18px;
+    }
+
+    .title_text {
+        font-size: 18px;
+    }
+
+    .info_text {
+        font-size: 18px;
+    }
+
+    .bio_block .text {
+        flex-direction: column;
+    }
+
+    .bio_block .text .diplome {
+        margin-bottom: 3rem;
+        width: 100%;
+    }
 }

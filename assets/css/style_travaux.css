@@ -22,7 +22,7 @@ nav {
     background-color: rgb(39, 39, 39);
     position: fixed;
     display: flex;
-    justify-content: end;
+    justify-content: center;
     align-items: center;
 }
 
@@ -45,6 +45,7 @@ nav {
 .contener {
     margin: 8rem 0 2rem 0;
     width: 94%;
+    height: 103rem;
     display: flex;
     gap: 2%;
 }
@@ -52,6 +53,7 @@ nav {
 .center_block {
     padding: 0.5rem;
     border: 3px solid dimgray;
+    margin: 0;
     width: 33%;
     height: 101.25rem;
     background-color: lightgray;
@@ -144,4 +146,91 @@ nav {
 
 .object .projects .pijs {
     background: url(/assets/images/img_font_pijs.png);
+}
+
+@media screen and (max-width: 1024px) {
+    .words_nav {
+        margin: 0;
+        gap: 4rem;
+    }
+
+    .contener {
+        width: 98%;
+        gap: 1%;
+    }
+
+    .center_block {
+        height: 99.25rem;
+    }
+
+    .object {
+        padding: 2rem 0;
+        gap: 4.6%;
+    }
+
+    .object .projects {
+        padding-top: 3rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .words_nav {
+        margin: 0;
+        gap: 5rem;
+    }
+
+    .redirect {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+    }
+
+    .contener {
+        padding: 0.5rem;
+        background-color: lightgray;
+        width: 96%;
+        height: 99.25rem;
+        justify-content: space-between;
+        gap: 0;
+    }
+
+    .center_block {
+        width: 33.3%;
+    }
+
+    .python {
+        padding: 0;
+        border: none;
+    }
+
+    .golang {
+        padding: 0;
+        border: none;
+    }
+
+    .javascript {
+        padding: 0;
+        border: none;
+    }
+
+    .object .projects {
+        padding-top: 3rem;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .words_nav {
+        gap: 2.5rem;
+    }
+
+    .contener {
+        width: 90%;
+        height: 300rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .center_block {
+        width: 100%;
+    }
 }

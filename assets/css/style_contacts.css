@@ -22,7 +22,7 @@ nav {
     background-color: rgb(39, 39, 39);
     position: fixed;
     display: flex;
-    justify-content: end;
+    justify-content: center;
     align-items: center;
 }
 
@@ -111,4 +111,71 @@ nav {
 .center_block .location .info a {
     color: black;
     text-decoration: underline black;
+}
+
+@media screen and (max-width: 1024px) {
+    .words_nav {
+        margin: 0;
+        gap: 4rem;
+    }
+
+    .center_block {
+        width: 87%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .words_nav {
+        margin: 0;
+        gap: 5rem;
+    }
+
+    .redirect {
+        width: 0;
+        height: 0;
+        visibility: hidden;
+    }
+
+    .center_block {
+        padding: 1rem;
+        width: 90%;
+    }
+
+    .center_block .container {
+        padding: 0.5rem;
+        width: 50%;
+    }
+
+    .center_block .container .info {
+        width: 93%;
+    }
+
+    .center_block .location {
+        padding: 0.5rem;
+        width: 50%;
+    }
+
+    .center_block .location .info {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .words_nav {
+        gap: 2.5rem;
+    }
+
+    .center_block {
+        flex-direction: column;
+        width: 80%;
+        height: 64rem;
+    }
+
+    .center_block .container {
+        width: 94.5%;
+    }
+
+    .center_block .location {
+        width: 94.5%;
+    }
 }
